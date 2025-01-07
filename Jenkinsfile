@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
                     npm test
-                    cat build/index.html
+                    grep build/'index.html'
                 '''
             }
         }
