@@ -30,6 +30,7 @@ pipeline {
             steps {
                 echo 'Test stage...'
                 sh '''
+                    mkdir -p test-results
                     test -f build/index.html
                     npm test
                 '''
