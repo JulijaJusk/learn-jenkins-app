@@ -15,12 +15,12 @@ pipeline {
                     node --version
                     npm --version
                     npm ci
-                    npm install jest-junit --save-dev
                     npm run build
                     ls -la
                 '''
             }
         }
+
         stage('Test') {
             agent {
                 docker {
@@ -28,10 +28,9 @@ pipeline {
                     reuseNode true
                 }
             }
+
             steps {
-                echo 'Test stage...'
                 sh '''
-                    mkdir -p test-results
                     test -f build/index.html
                     npm test
                 '''
