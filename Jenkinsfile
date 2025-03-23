@@ -13,7 +13,7 @@ pipeline {
                 docker {
                     image 'amazon/aws-cli'
                     reuseNode true
-                    args "--entrypoint=''"
+                    args "-u root --entrypoint=''"
                 }
             }
 
@@ -25,6 +25,7 @@ pipeline {
                         LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod2.json | jq '.taskDefinition.revision')
                         echo $LATEST_TD_REVISION
                         aws ecs update-service --cluster LearnJenkinsApp-Cluster-Prod2 --service LearnJenkinsApp-Service-Prod2 --task-definition LearnJenkinsApp-TaskDefinition-Prod2:$LATEST_TD_REVISION
+                        aws ecs wait service-stable --cluster LearnJenkinsApp-Cluster-Prod2 --services LearnJenkinsApp-Service-Prod2
                     '''
                 }
             }
